@@ -15,10 +15,20 @@ cmd = ['/Applications/VLC.app/Contents/MacOS/VLC',
        "--start-time=#{rando}",
        "--stop-time=#{rando + 2}",
        '--scene-prefix=thumb',
-       '--scene-path=/Users/cmackenzie/Desktop/simpsons/output',
-       '/Users/cmackenzie/Desktop/simpsons/episode.m4v',
+       '--scene-path=/Users/cmackenzie/Desktop/projects/simpsons',
+       '/Users/cmackenzie/Desktop/projects/simpsons/episode.m4v',
        'vlc://quit'].join(' ')
-exec cmd
+system(cmd)
 
-animation = ImageList.new("/Users/cmackenzie/Desktop/simpsons/output/thumb00030.png")
-animation.display
+file = "00001"
+
+# while File.exists?("thumb" + file + ".png")
+#   File.delete("thumb" + file + ".png") if File.zero?("thumb" + file + ".png")
+#   file.next!
+#   p file
+# end
+
+# 
+# animation = ImageList.new(*Dir["*.png"])
+# animation.delay = 10
+# animation.write("animated.gif")
