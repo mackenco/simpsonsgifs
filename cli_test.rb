@@ -12,9 +12,9 @@ def run
          '--scene-height=256',
          '--scene-width=512',
          '--scene-format=png',
-         '--scene-ratio=1',
+         '--scene-ratio=2',
          "--start-time=#{rando}",
-         "--stop-time=#{rando + 2}",
+         "--stop-time=#{rando + 3}",
          '--scene-prefix=thumb',
          '--scene-path=/Users/cmackenzie/Desktop/projects/simpsons',
          '/Users/cmackenzie/Desktop/projects/simpsons/episode.m4v',
@@ -23,17 +23,25 @@ def run
 
   file = "00001"
 
-  p fileName(file)
-  # while File.exists?("thumb" + file + ".png")
-  #   File.delete("thumb" + file + ".png") if File.zero?("thumb" + file + ".png")
-  #   file.next!
-  #   p file
-  # end
-
-  # 
-  # animation = ImageList.new(*Dir["*.png"])
-  # animation.delay = 10
-  # animation.write("animated.gif")
+  until File.zero?(fileName(file))
+    File.delete(fileName(file))
+    file.next!.next!
+  end
+  
+  while File.zero?(fileName(file))
+    File.delete(fileName(file))
+    file.next!.next!
+  end
+  
+  animation = ImageList.new(*Dir["*.png"])
+  # animation.delay = 0
+  animation.write("animated.gif")
+  
+  while File.exists?(fileName(file))
+    File.delete(fileName(file))
+    file.next!.next!
+  end
+  
 end
 
 def fileName(num)
