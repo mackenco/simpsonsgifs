@@ -22,21 +22,15 @@ def run
   system(cmd)
 
   @file = "00001"
+  
+  deleteFile until File.zero?(fileName)
+  
+  deleteFile while File.zero?(fileName)
 
-  until File.zero?(fileName)
-    processFile
-  end
-  
-  while File.zero?(fileName)
-    processFile
-  end
-  
   animation = ImageList.new(*Dir["*.png"])
   animation.write("animated.gif")
   
-  while File.exists?(fileName)
-    processFile
-  end
+  deleteFile while File.exists?(fileName)
   
 end
 
@@ -44,7 +38,7 @@ def fileName
   "thumb#{@file}.png"
 end
 
-def processFile
+def deleteFile
   File.delete(fileName)
   @file.next!.next!
 end
