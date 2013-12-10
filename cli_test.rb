@@ -23,23 +23,20 @@ def run
 
   @file = "00001"
 
-  until File.zero?(fileName(@file))
-    File.delete(fileName(@file))
-    @file.next!.next!
+  until File.zero?(fileName)
+    processFile
   end
   
-  while File.zero?(fileName(@file))
-    File.delete(fileName(@file))
-    @file.next!.next!
+  while File.zero?(fileName)
+    processFile
   end
   
   animation = ImageList.new(*Dir["*.png"])
   # animation.delay = 0
   animation.write("animated.gif")
   
-  while File.exists?(fileName(@file))
-    File.delete(fileName(@file))
-    @file.next!.next!
+  while File.exists?(fileName)
+    processFile
   end
   
 end
@@ -49,7 +46,7 @@ def fileName
 end
 
 def processFile
-  File.delete(fileName(@file))
+  File.delete(fileName)
   @file.next!.next!
 end
 
