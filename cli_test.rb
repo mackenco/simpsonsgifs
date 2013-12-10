@@ -32,7 +32,6 @@ def run
   end
   
   animation = ImageList.new(*Dir["*.png"])
-  # animation.delay = 0
   animation.write("animated.gif")
   
   while File.exists?(fileName)
@@ -42,7 +41,7 @@ def run
 end
 
 def fileName
-  "thumb" + @file + ".png"
+  "thumb#{@file}.png"
 end
 
 def processFile
