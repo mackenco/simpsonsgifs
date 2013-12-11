@@ -40,13 +40,12 @@ def run
   #had to write the text onto each individual frame of the gif; couldn't figure how to put the text onto the entire file
   animation.each do |frame|
     text = Magick::Draw.new
-    text.annotate(frame, 0, 0, 0, 60, line.text.join("\n")) {
-      self.font_family = 'Helvetica'
+    text.annotate(frame, 0, 0, 0, 0, line.text.join("\n")) {
+      self.font = 'DejaVuSansCondensed-BoldOblique.ttf'
       self.gravity = Magick::SouthGravity
-      self.pointsize = 48
+      self.pointsize = 16
       self.stroke = 'transparent'
       self.fill = 'white'
-      self.font_weight = Magick::BoldWeight
     }
   end  
   
