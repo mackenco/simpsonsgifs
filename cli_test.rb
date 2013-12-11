@@ -1,8 +1,16 @@
 require 'rmagick'
+require 'srt'
 include Magick
 
-def run
-  rando = Random.new.rand * 1000
+def run  
+  subs = SRT::File.parse(File.new("s07e01.srt"))  
+  
+  line = subs.lines[4..-1].sample #getting rid of some non-quote subs with the 3..-1  
+
+  p line.text
+  p line.start_time
+  p line.end_time
+  
   cmd = ['/Applications/VLC.app/Contents/MacOS/VLC',
          '-Idummy',
          '--video-filter',
@@ -13,14 +21,14 @@ def run
          '--scene-width=512',
          '--scene-format=png',
          '--scene-ratio=2',
-         "--start-time=#{rando}",
-         "--stop-time=#{rando + 3}",
+         "--start-time=#{line.start_time}",
+         "--stop-time=#{line.end_time}",
          '--scene-prefix=thumb',
          '--scene-path=/Users/cmackenzie/Desktop/projects/simpsons',
-         '/Users/cmackenzie/Desktop/projects/simpsons/episode.m4v',
+         '/Users/cmackenzie/Desktop/projects/simpsons/s07e01.m4v',
          'vlc://quit'].join(' ')
   system(cmd)
-
+  
   @file = "00001"
   
   deleteFile until File.zero?(fileName)
