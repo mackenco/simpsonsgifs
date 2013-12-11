@@ -36,14 +36,20 @@ def run
   deleteFile while File.zero?(fileName)
 
   animation = ImageList.new(*Dir["*.png"])
-  text = Draw.new
-  text.annotate(animation, 0, 0, 0, 60, "Quote") {
-    self.gravity = SouthGravity
-    self.pointsize = 48
-    self.stroke = 'transparent'
-    self.fill = '#0000A9'
-    self.font_weight = BoldWeight
-  }
+  
+  #had to write the text onto each individual frame of the gif; couldn't figure how to put the text onto the entire file
+  animation.each do |frame|
+    text = Magick::Draw.new
+    text.annotate(frame, 0, 0, 0, 60, line.text.join("\n")) {
+      self.font_family = 'Helvetica'
+      self.gravity = Magick::SouthGravity
+      self.pointsize = 48
+      self.stroke = 'transparent'
+      self.fill = 'white'
+      self.font_weight = Magick::BoldWeight
+    }
+  end  
+  
   animation.write("animated.gif")
   
   deleteFile while File.exists?(fileName)
