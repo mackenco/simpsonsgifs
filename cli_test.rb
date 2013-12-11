@@ -36,6 +36,14 @@ def run
   deleteFile while File.zero?(fileName)
 
   animation = ImageList.new(*Dir["*.png"])
+  text = Draw.new
+  text.annotate(animation, 0, 0, 0, 60, "Quote") {
+    self.gravity = SouthGravity
+    self.pointsize = 48
+    self.stroke = 'transparent'
+    self.fill = '#0000A9'
+    self.font_weight = BoldWeight
+  }
   animation.write("animated.gif")
   
   deleteFile while File.exists?(fileName)
