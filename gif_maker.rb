@@ -5,8 +5,7 @@ include Magick
 def run  
   ep = (1..25).to_a.sample
   subs = SRT::File.parse(File.new("srts/S07E#{ep}.srt"))  
-  
-  line = subs.lines[4..-1].sample #getting rid of some non-quote subs with the 4..-1  
+  line = subs.lines[4..-3].sample #getting rid of some non-quote subs with the 4..-3  
   
   cmd = ['/Applications/VLC.app/Contents/MacOS/VLC',
          '-Idummy',
@@ -34,6 +33,22 @@ def run
 
   animation = ImageList.new(*Dir["*.png"])
   
+  createGif(animation, line)
+  
+  deleteFile while File.exists?(fileName)
+  
+end
+
+def fileName
+  "thumb#{@file}.png"
+end
+
+def deleteFile
+  File.delete(fileName)
+  @file.next!.next!
+end
+
+def createGif(animation, line)
   #had to write the text onto each individual frame of the gif; couldn't figure how to put the text onto the entire file
   animation.each do |frame|
     text = Magick::Draw.new
@@ -47,18 +62,6 @@ def run
   end  
   
   animation.write("animated.gif")
-  
-  deleteFile while File.exists?(fileName)
-  
-end
-
-def fileName
-  "thumb#{@file}.png"
-end
-
-def deleteFile
-  File.delete(fileName)
-  @file.next!.next!
 end
 
 run
